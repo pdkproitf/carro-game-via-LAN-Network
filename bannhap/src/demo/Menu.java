@@ -258,14 +258,14 @@ public class Menu extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();      
         if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))) {
-            Exit ex = new Exit(this, true);
+            Exit ex = new Exit(this, true,this);
             ex.setVisible(true);
         }
     }//GEN-LAST:event_lbExitMouseReleased
 
     private void lbExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExitMouseClicked
         // TODO add your handling code here:
-        Exit ex = new Exit(this, true);
+        Exit ex = new Exit(this, true,this);
         ex.setVisible(true);
     }//GEN-LAST:event_lbExitMouseClicked
 

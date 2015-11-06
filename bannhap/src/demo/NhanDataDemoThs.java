@@ -22,7 +22,8 @@ public class NhanDataDemoThs extends Thread {
     Socket sk;
     ObjectInputStream ois;
     Menu mn;
-    public NhanDataDemoThs(Socket sk, String name, ObjectInputStream ois,Menu mn) {
+
+    public NhanDataDemoThs(Socket sk, String name, ObjectInputStream ois, Menu mn) {
         super(name);
         this.sk = sk;
         this.ois = ois;
@@ -50,6 +51,19 @@ public class NhanDataDemoThs extends Thread {
                 System.out.println("loi nhan tin");
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void closeSk() {
+        try {
+            if (this.sk != null||!this.sk.isClosed()) {
+                this.sk.close();
+                this.stop();
+                System.out.println("da dong sk");
+            }
+        } catch (IOException ex) {
+            System.out.println("loi dong sk");
+            ex.printStackTrace();
         }
     }
 }

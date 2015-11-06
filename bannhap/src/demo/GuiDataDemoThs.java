@@ -11,6 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,8 +23,8 @@ public class GuiDataDemoThs {
 
     Socket sk;
     ObjectOutputStream oos;
-    boolean status;//xem thu co ket noi dc hay k
     String name;
+    NhanDataDemoThs nhanData;
 
     public GuiDataDemoThs(String name) {
 //        super(name);
@@ -44,7 +46,8 @@ public class GuiDataDemoThs {
             message_Cls sms2 = (message_Cls) ois.readObject();
             if (sms2 != null) {
                 if (sms2.isCf()) {
-                    new NhanDataDemoThs(sk, name, ois, mn).start();
+                    nhanData = new NhanDataDemoThs(sk, name, ois, mn);
+                    nhanData.start();
                     mn.setNotice(sms2.getDesc());
                     return true;
                 } else {
@@ -62,12 +65,18 @@ public class GuiDataDemoThs {
         }
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void closeSk() {
+        try {
+            if(this.sk!=null||!this.sk.isClosed()){
+                SendData(new message_Cls("dong", "dong ket noi"));
+                nhanData.closeSk();
+                this.sk.close();
+                System.out.println("da dong sk");
+            }
+        } catch (IOException ex) {
+            System.out.println("loi dong sk");
+            ex.printStackTrace();
+        }
     }
 
     public void run() {

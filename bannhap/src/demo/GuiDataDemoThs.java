@@ -54,6 +54,7 @@ public class GuiDataDemoThs {
             return false;
         } catch (Exception ex) {
             System.out.println("loi tao socket");
+            mn.setNotice("ket noi that bai xem lai duong truyen hoac ip may chu");
             ex.printStackTrace();
             return false;
         }

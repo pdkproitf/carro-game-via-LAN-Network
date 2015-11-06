@@ -5,7 +5,9 @@
  */
 package demo;
 
+import dungchung.message_Cls;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -17,12 +19,13 @@ public class Register extends javax.swing.JDialog {
     /**
      * Creates new form Register
      */
-    public Register(java.awt.Dialog parent, boolean modal) {
+    Menu mn;
+    public Register(java.awt.Dialog parent, boolean modal,Menu mn) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        this.mn = mn;
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +47,6 @@ public class Register extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName(""); // NOI18N
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1000, 700));
         setResizable(false);
 
         pnRegister.setPreferredSize(new java.awt.Dimension(1000, 700));
@@ -132,7 +134,7 @@ public class Register extends javax.swing.JDialog {
         lbExit.setIcon(II);
         int x = evt.getX();
         int y = evt.getY();
-        if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))){
+        if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))) {
             dispose();
         }
     }//GEN-LAST:event_lbExitMouseReleased
@@ -147,11 +149,26 @@ public class Register extends javax.swing.JDialog {
         // TODO add your handling code here:
         ImageIcon II = new ImageIcon(getClass().getResource("/Image/Login/dang_ky.png"));
         lbRegister.setIcon(II);
-        //        int x = evt.getX();
-        //        int y = evt.getY();
-        //        if ((x > 0) && (x < (lbRegister.getWidth())) && (y > 0) && (y < (lbRegister.getHeight()))){
-            //
-            //        }
+        int x = evt.getX();
+        int y = evt.getY();
+        if ((x > 0) && (x < (lbRegister.getWidth())) && (y > 0) && (y < (lbRegister.getHeight()))) {
+            message_Cls sms = new message_Cls("dang ky", "");
+            sms.setName(this.txtLogin.getText());
+            sms.setEmail(this.txtLogin.getText()+"@gmail.com");
+            sms.setPass(this.txtPassword.getText());
+            this.mn.setSk(new GuiDataDemoThs("name"));
+            if(this.mn.getSk().openConnect(sms,this.mn)){
+                //thanh cong
+                Online on = new Online(mn);
+                on.setVisible(true);
+                this.setVisible(false);
+                this.mn.dispose();
+                this.dispose();
+            }else{
+                System.out.println("loi ket noi");
+                JOptionPane.showMessageDialog(null,mn.getNotice());
+            }
+        }
     }//GEN-LAST:event_lbRegisterMouseReleased
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed

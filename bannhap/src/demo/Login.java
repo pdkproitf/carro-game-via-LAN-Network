@@ -188,7 +188,7 @@ public class Login extends javax.swing.JDialog {
         int x = evt.getX();
         int y = evt.getY();
         if ((x > 0) && (x < (lbRegister.getWidth())) && (y > 0) && (y < (lbRegister.getHeight()))){
-            Register rg = new Register(this, true);
+            Register rg = new Register(this, true,this.mn);
             rg.setVisible(true);
         }
     }//GEN-LAST:event_lbRegisterMouseReleased

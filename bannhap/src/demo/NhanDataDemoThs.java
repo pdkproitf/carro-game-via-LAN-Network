@@ -33,6 +33,7 @@ public class NhanDataDemoThs extends Thread {
     public void run() {
         while (true) {
             try {
+                System.out.println("dang hoat dong");
                 if (!this.sk.isClosed()) {
                     message_Cls sms = (message_Cls) ois.readObject();
                     if (sms != null) {
@@ -42,6 +43,7 @@ public class NhanDataDemoThs extends Thread {
                 } else {
                     System.out.println("da dong socket");
                     this.sk.close();
+                    this.stop();
                 }
                 Thread.sleep(1000);
             } catch (Exception e) {

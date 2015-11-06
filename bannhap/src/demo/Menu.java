@@ -216,7 +216,8 @@ public class Menu extends javax.swing.JFrame {
         int y = evt.getY();      
         if ((x > 0) && (x < (lbPlayOnline.getWidth())) && (y > 0) && (y < (lbPlayOnline.getHeight()))) {
             if(this.getSk()!=null){//neu da ton tai socket thi vo thang game
-                new PvP(this).show();
+                new Online(this).show();
+                this.dispose();
             }else{//chua ton tai thi vao dang nhap
                 Login lg = new Login(this, true,this);
                 lg.setVisible(true);

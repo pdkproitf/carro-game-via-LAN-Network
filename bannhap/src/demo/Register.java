@@ -135,6 +135,9 @@ public class Register extends javax.swing.JDialog {
         int x = evt.getX();
         int y = evt.getY();
         if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))) {
+            if(this.mn.getSk()!=null){
+                this.mn.getSk();
+            }
             dispose();
         }
     }//GEN-LAST:event_lbExitMouseReleased

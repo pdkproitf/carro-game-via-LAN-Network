@@ -51,6 +51,8 @@ public class GuiDataDemoThs {
                     mn.setNotice(sms2.getDesc());
                 }
             }
+            sk.close();
+            System.out.println("dong sk");
             return false;
         } catch (Exception ex) {
             System.out.println("loi tao socket");

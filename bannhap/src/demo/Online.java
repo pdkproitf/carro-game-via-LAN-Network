@@ -161,8 +161,8 @@ public class Online extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();
         if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))){
-            dispose();
             this.mn.setVisible(true);
+            dispose();
         }
     }//GEN-LAST:event_lbExitMouseReleased
 

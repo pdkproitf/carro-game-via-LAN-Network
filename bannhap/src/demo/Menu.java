@@ -21,10 +21,19 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
+    public String notice = "";
     private GuiDataDemoThs sk;
     public Menu() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 
 

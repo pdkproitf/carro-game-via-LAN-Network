@@ -7,6 +7,7 @@ package demo;
 
 import dungchung.message_Cls;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -159,7 +160,7 @@ public class Login extends javax.swing.JDialog {
             sms.setEmail(this.txtLogin.getText());
             sms.setPass(this.txtPassword.getText());
             this.mn.setSk(new GuiDataDemoThs("name"));
-            if(this.mn.getSk().openConnect(sms)){
+            if(this.mn.getSk().openConnect(sms,this.mn)){
                 //thanh cong
                 Online on = new Online(mn);
                 on.setVisible(true);
@@ -168,6 +169,7 @@ public class Login extends javax.swing.JDialog {
                 this.dispose();
             }else{
                 System.out.println("loi ket noi");
+                JOptionPane.showMessageDialog(null,mn.getNotice());
             }
             
         }

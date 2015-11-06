@@ -21,16 +21,13 @@ public class NhanDataDemoThs extends Thread {
 
     Socket sk;
     ObjectInputStream ois;
-
-    public NhanDataDemoThs(Socket sk, String name) {
+    Menu mn;
+    public NhanDataDemoThs(Socket sk, String name, ObjectInputStream ois,Menu mn) {
         super(name);
-        try {
-            this.sk = sk;
-            ois = new ObjectInputStream(this.sk.getInputStream());
-            System.out.println("luong nhan hoat dong");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        this.sk = sk;
+        this.ois = ois;
+        this.mn = mn;
+        System.out.println("luong nhan hoat dong");
     }
 
     public void run() {
@@ -40,6 +37,7 @@ public class NhanDataDemoThs extends Thread {
                     message_Cls sms = (message_Cls) ois.readObject();
                     if (sms != null) {
                         System.out.println("da nhan duoc => " + sms.getDesc());
+                        this.mn.setNotice(sms.getDesc());
                     }
                 } else {
                     System.out.println("da dong socket");

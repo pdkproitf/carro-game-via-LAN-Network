@@ -22,7 +22,8 @@ public class Form extends javax.swing.JFrame {
         //caro.KhoiTaoMangOCo();
         //caro.VeLaiQuanCo(grs);
         grs=pnBoard.getGraphics();
-        pnBoard.KhoiTaoMangOCo();
+//        pnBoard.KhoiTaoMangOCo();
+        pnBoard.StartPvsP(grs);
         setLocationRelativeTo(null);
     }
 
@@ -144,7 +145,8 @@ public class Form extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();
         if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))){
-            dispose();
+            this.dispose();
+            new Menu().show();
         }      
     }//GEN-LAST:event_lbExitMouseReleased
 
@@ -158,6 +160,11 @@ public class Form extends javax.swing.JFrame {
         // TODO add your handling code here:
         ImageIcon II = new ImageIcon(getClass().getResource("/Image/Board/Lose.png"));
         lbLose.setIcon(II);
+        int x = evt.getX();
+        int y = evt.getY();
+        if ((x > 0) && (x < (lbLose.getWidth())) && (y > 0) && (y < (lbLose.getHeight()))){
+            new Carochess().ThongBao();
+        }
     }//GEN-LAST:event_lbLoseMouseReleased
  
 

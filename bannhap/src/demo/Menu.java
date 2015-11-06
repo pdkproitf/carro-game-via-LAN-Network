@@ -7,8 +7,10 @@ package demo;
 
 import com.sun.javafx.scene.SceneHelper;
 import java.awt.Color;
+import java.net.Socket;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +21,7 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
+    private GuiDataDemoThs sk;
     public Menu() {
         initComponents();
         setLocationRelativeTo(null);
@@ -164,8 +167,9 @@ public class Menu extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();      
         if ((x > 0) && (x < (lbPvC.getWidth())) && (y > 0) && (y < (lbPvC.getHeight()))) {
-            PvC pc = new PvC();
+            PvC pc = new PvC(this);
             pc.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_lbPvCMouseReleased
 
@@ -182,8 +186,10 @@ public class Menu extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();      
         if ((x > 0) && (x < (lbPvP.getWidth())) && (y > 0) && (y < (lbPvP.getHeight()))) {
-            Form f = new Form();
-            f.setVisible(true);
+            PvP pc = new PvP(this);
+            pc.setVisible(true);
+            this.setVisible(false);
+            this.dispose();
         }
     }//GEN-LAST:event_lbPvPMouseReleased
 
@@ -200,10 +206,22 @@ public class Menu extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();      
         if ((x > 0) && (x < (lbPlayOnline.getWidth())) && (y > 0) && (y < (lbPlayOnline.getHeight()))) {
-            Login lg = new Login(this, true);
-            lg.setVisible(true);
+            if(this.getSk()!=null){//neu da ton tai socket thi vo thang game
+                new PvP(this).show();
+            }else{//chua ton tai thi vao dang nhap
+                Login lg = new Login(this, true,this);
+                lg.setVisible(true);
+            }
         }
     }//GEN-LAST:event_lbPlayOnlineMouseReleased
+
+    public GuiDataDemoThs getSk() {
+        return sk;
+    }
+
+    public void setSk(GuiDataDemoThs sk) {
+        this.sk = sk;
+    }
 
     private void lbAboutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAboutMousePressed
         // TODO add your handling code here:

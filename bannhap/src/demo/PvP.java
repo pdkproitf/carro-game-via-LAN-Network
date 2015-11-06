@@ -12,18 +12,18 @@ import javax.swing.ImageIcon;
  *
  * @author PC
  */
-public class PvC extends javax.swing.JFrame {
+public class PvP extends javax.swing.JFrame {
 
     /**
      * Creates new form PvC
      */
     Menu mn;
     private Graphics grs;
-    public PvC(Menu mn) {
+    public PvP(Menu mn) {
         initComponents();
         grs=pnBoard.getGraphics();
         //pnBoard.KhoiTaoMangOCo();
-        pnBoard.StartPvcC(grs);
+        pnBoard.StartPvsP(grs);
         setLocationRelativeTo(null);
         this.mn = mn;
         
@@ -193,7 +193,7 @@ public class PvC extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();
         if ((x > 0) && (x < (lbPlay.getWidth())) && (y > 0) && (y < (lbPlay.getHeight()))){
-            pnBoard.StartPvcC(grs);    
+            pnBoard.StartPvsP(grs);
         }
     }//GEN-LAST:event_lbPlayMouseReleased
 

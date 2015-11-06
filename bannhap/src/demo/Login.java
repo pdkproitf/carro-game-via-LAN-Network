@@ -5,6 +5,7 @@
  */
 package demo;
 
+import dungchung.message_Cls;
 import javax.swing.ImageIcon;
 
 /**
@@ -16,10 +17,12 @@ public class Login extends javax.swing.JDialog {
     /**
      * Creates new form Login
      */
-    public Login(java.awt.Frame parent, boolean modal) {
+    public  Menu mn;
+    public Login(java.awt.Frame parent, boolean modal,Menu mn) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        this.mn = mn;
     }
 
     /**
@@ -148,11 +151,26 @@ public class Login extends javax.swing.JDialog {
         // TODO add your handling code here:
         ImageIcon II = new ImageIcon(getClass().getResource("/Image/Login/dang_nhap.png"));
         lbLogin.setIcon(II);
-//        int x = evt.getX();
-//        int y = evt.getY();
-//        if ((x > 0) && (x < (lbLogin.getWidth())) && (y > 0) && (y < (lbLogin.getHeight()))){
-//            
-//        }
+        int x = evt.getX();
+        int y = evt.getY();
+        if ((x > 0) && (x < (lbLogin.getWidth())) && (y > 0) && (y < (lbLogin.getHeight()))){
+            message_Cls sms = new message_Cls("dang nhap", "");
+            sms.setName(this.txtLogin.getText());
+            sms.setEmail(this.txtLogin.getText());
+            sms.setPass(this.txtPassword.getText());
+            this.mn.setSk(new GuiDataDemoThs("name"));
+            if(this.mn.getSk().openConnect(sms)){
+                //thanh cong
+                Online on = new Online(mn);
+                on.setVisible(true);
+                this.setVisible(false);
+                this.mn.dispose();
+                this.dispose();
+            }else{
+                System.out.println("loi ket noi");
+            }
+            
+        }
     }//GEN-LAST:event_lbLoginMouseReleased
 
     private void lbRegisterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRegisterMousePressed

@@ -5,6 +5,9 @@
  */
 package demo;
 
+import com.sun.corba.se.spi.activation._LocatorImplBase;
+import dungchung.Oco;
+import dungchung.message_Cls;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
@@ -12,18 +15,18 @@ import javax.swing.ImageIcon;
  *
  * @author PC
  */
-public class PvC extends javax.swing.JFrame {
+public class Online extends javax.swing.JFrame {
 
     /**
      * Creates new form PvC
      */
     Menu mn;
     private Graphics grs;
-    public PvC(Menu mn) {
+    public Online(Menu mn) {
         initComponents();
         grs=pnBoard.getGraphics();
         //pnBoard.KhoiTaoMangOCo();
-        pnBoard.StartPvcC(grs);
+        pnBoard.StartPvsP(grs);
         setLocationRelativeTo(null);
         this.mn = mn;
         
@@ -164,9 +167,21 @@ public class PvC extends javax.swing.JFrame {
     }//GEN-LAST:event_lbExitMouseReleased
 
     private void pnBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnBoardMouseReleased
-
-        if(pnBoard.DanhCo(evt.getX(), evt.getY(), grs))
+        //chuyen thanh oco
+        int cl=evt.getX()/25;
+        int rw=evt.getY()/25;
+        //
+//        this.mn.getSk().SendData();
+        if(pnBoard.DanhCo_CS(evt.getX(), evt.getY(), grs))
         {
+            Oco oc1=pnBoard.getMangOCo(rw, cl);
+            message_Cls sms = new message_Cls("danh co","da danh cai ni"+evt.getX()+"-"+evt.getY());
+            sms.setOc(oc1);
+            this.mn.getSk().SendData(sms);
+            if(pnBoard.getLuotDi()==1)
+                pnBoard.getBanCo().VeQuanCo(grs, pnBoard.getMangOCo(rw, cl).getVitri(), pnBoard.getImageX());
+            else
+                pnBoard.getBanCo().VeQuanCo(grs, pnBoard.getMangOCo(rw, cl).getVitri(), pnBoard.getImageO());
             if(pnBoard.KiemTraChienThang())
             pnBoard.ThongBao();
             else{
@@ -193,7 +208,7 @@ public class PvC extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();
         if ((x > 0) && (x < (lbPlay.getWidth())) && (y > 0) && (y < (lbPlay.getHeight()))){
-            pnBoard.StartPvcC(grs);    
+            pnBoard.StartPvsP(grs);
         }
     }//GEN-LAST:event_lbPlayMouseReleased
 

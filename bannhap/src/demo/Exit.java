@@ -128,7 +128,9 @@ Menu mn;
         int x = evt.getX();
         int y = evt.getY();
         if ((x > 0) && (x < (lbYes.getWidth())) && (y > 0) && (y < (lbYes.getHeight()))){
-            this.mn.getSk().closeSk();
+            if(this.mn.getSk()!=null){
+                this.mn.getSk().closeSk();
+            }
             System.exit(0);
         }
     }//GEN-LAST:event_lbYesMouseReleased
@@ -141,7 +143,7 @@ Menu mn;
 
     private void lbYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbYesMouseClicked
         // TODO add your handling code here:
-        System.exit(0);
+        System.exit(0);//
     }//GEN-LAST:event_lbYesMouseClicked
 
 

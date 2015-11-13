@@ -162,8 +162,8 @@ public class Login extends javax.swing.JDialog {
             this.mn.setSk(new GuiDataDemoThs("name"));
             if(this.mn.getSk().openConnect(sms,this.mn)){
                 //thanh cong
-                Online on = new Online(mn);
-                on.setVisible(true);
+//                HangDoiTimPhong on = new HangDoiTimPhong(mn);
+//                on.setVisible(true);
                 this.setVisible(false);
                 this.mn.dispose();
                 this.dispose();

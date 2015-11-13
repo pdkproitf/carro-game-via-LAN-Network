@@ -25,30 +25,30 @@ public class GuiDataDemoThs {
     ObjectOutputStream oos;
     String name;
     NhanDataDemoThs nhanData;
-
+    boolean Islife =false;
+    
     public GuiDataDemoThs(String name) {
 //        super(name);
         this.name = name;
-
-    }
-
-    public GuiDataDemoThs() {
-
     }
 
     public boolean openConnect(message_Cls sms, Menu mn) {
         try {
-            System.out.println("tao ket noi");
-            sk = new Socket("localhost", 1111);
+            sk = new Socket(mn.getServerAddress(),mn.getServerPort());
+            System.out.println("tao ket noi "+this.sk.getPort());
             oos = new ObjectOutputStream(this.sk.getOutputStream());
             SendData(sms);
             ObjectInputStream ois = new ObjectInputStream(sk.getInputStream());
             message_Cls sms2 = (message_Cls) ois.readObject();
             if (sms2 != null) {
                 if (sms2.isCf()) {
+                    mn.setHdtp(new HangDoiTimPhong(mn));
                     nhanData = new NhanDataDemoThs(sk, name, ois, mn);
                     nhanData.start();
                     mn.setNotice(sms2.getDesc());
+                    mn.setId_user(sms2.getId_user());
+                    System.out.println(sms2.getDesc()+" id user nhan duoc "+sms2.getId_user());
+                    this.Islife = true;
                     return true;
                 } else {
                     mn.setNotice(sms2.getDesc());
@@ -79,26 +79,19 @@ public class GuiDataDemoThs {
         }
     }
 
-    public void run() {
-        while (true) {
-            try {
-                System.out.println("da tao ket noi den");
-                if (!this.sk.isClosed()) {
-                    System.out.println("socket life");
-                    System.out.println("gui dat: => toi la socket thu 4");
-                    oos.writeObject(new message_Cls("thong bao", "toi la socket thu 4"));
-                    oos.flush();
-                } else {
-                    System.out.println("sk da dong");
-                    this.sk.close();
-                }
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                System.out.println("loi gui data");
-                e.printStackTrace();
-            }
-        }
-    }
+//    public void run() {
+//        while (true) {
+//            try {
+//                if(this.Islife){
+//                    SendData(new message_Cls("status","dang hoat dong"));
+//                }
+//                Thread.sleep(100);
+//            } catch (Exception e) {
+//                System.out.println("loi gui data");
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     public void SendData(message_Cls sms) {
         try {

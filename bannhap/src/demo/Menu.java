@@ -23,9 +23,54 @@ public class Menu extends javax.swing.JFrame {
      */
     public String notice = "";
     private GuiDataDemoThs sk;
+    private HangDoiTimPhong hdtp;
+    int serverPort  = 1111;
+    String serverAddress = "localhost";
+    int id_phong,id_user;
+    Online onl;
     public Menu() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    public Online getOnl() {
+        return onl;
+    }
+
+    public void setOnl(Online onl) {
+        this.onl = onl;
+    }
+
+    public int getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
+    public int getId_phong() {
+        return id_phong;
+    }
+
+    public void setId_phong(int id_phong) {
+        this.id_phong = id_phong;
+    }
+
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    public String getServerAddress() {
+        return serverAddress;
+    }
+
+    public void setServerAddress(String serverAddress) {
+        this.serverAddress = serverAddress;
     }
 
     public String getNotice() {
@@ -34,6 +79,14 @@ public class Menu extends javax.swing.JFrame {
 
     public void setNotice(String notice) {
         this.notice = notice;
+    }
+
+    public HangDoiTimPhong getHdtp() {
+        return hdtp;
+    }
+
+    public void setHdtp(HangDoiTimPhong hdtp) {
+        this.hdtp = hdtp;
     }
 
 
@@ -216,7 +269,7 @@ public class Menu extends javax.swing.JFrame {
         int y = evt.getY();      
         if ((x > 0) && (x < (lbPlayOnline.getWidth())) && (y > 0) && (y < (lbPlayOnline.getHeight()))) {
             if(this.getSk()!=null){//neu da ton tai socket thi vo thang game
-                new Online(this).show();
+                new HangDoiTimPhong(this).show();
                 this.dispose();
             }else{//chua ton tai thi vao dang nhap
                 Login lg = new Login(this, true,this);

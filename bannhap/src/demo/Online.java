@@ -67,6 +67,15 @@ public class Online extends javax.swing.JFrame {
             }
         }
     }
+
+    public Carochess getCarochess1() {
+        return carochess1;
+    }
+
+    public void setCarochess1(Carochess carochess1) {
+        this.carochess1 = carochess1;
+    }
+    
        public void Connect(){
             try {
                 //tao 1 ket noi
@@ -80,6 +89,7 @@ public class Online extends javax.swing.JFrame {
                 SendData(new message_Cls("chat","vao choi mi"));
                 player = new nhanDataNguoiChoi(this, ois, Skcl);
                 player.start();
+                this.carochess1.setSanSang(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -55,6 +55,7 @@ public class NhanDataServerThs extends Thread {
                                 if (sms.isCf()) {
                                     Online onl = new Online(this.mn,false,sms.getIdPhong(),sms.getPort(),sms.getInetAddress());
                                     onl.show();
+                                    onl.getCarochess1().setSanSang(true);
 //                                    onl.Connect(sms.getPort(),sms.getInetAddress());
                                     this.hdtp.dispose();
                                 } else {

@@ -189,7 +189,6 @@ public boolean DanhCo_CS(int Cot, int Dong, Graphics g) {
         }
         Oco oco = new Oco(_MangOCo[Dong][Cot].getDong(), _MangOCo[Dong][Cot].getCot(), _MangOCo[Dong][Cot].getVitri(), _MangOCo[Dong][Cot].getSohuu());
         stk_CacNuocDaDi.push(oco);
-        this._SanSang = false;
         return true;
     }
     public void VeLaiQuanCo(Graphics g) {

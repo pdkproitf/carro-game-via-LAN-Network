@@ -7,6 +7,7 @@ package demo;
 
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,14 +20,117 @@ public class PvC extends javax.swing.JFrame {
      */
     Menu mn;
     private Graphics grs;
+    int giay;
+    int _CheDoChoi;
+
+    public int getCheDoChoi() {
+        return _CheDoChoi;
+    }
+
+    public void setCheDoChoi(int _CheDoChoi) {
+        this._CheDoChoi = _CheDoChoi;
+    }
+    
+
     public PvC(Menu mn) {
         initComponents();
-        grs=pnBoard.getGraphics();
-        //pnBoard.KhoiTaoMangOCo();
+        grs = pnBoard.getGraphics();
+        _CheDoChoi=1;
+        pnBoard.StartPvsP(grs);
+        setLocationRelativeTo(null);
+        this.mn = mn;
+    }
+    
+    public PvC(Menu mn,int a){
+        initComponents();
+        grs = pnBoard.getGraphics();
+        _CheDoChoi=2;
         pnBoard.StartPvcC(grs);
         setLocationRelativeTo(null);
         this.mn = mn;
-        
+    }
+
+    public void setGiay(int giay) {
+        this.giay = giay;
+    }
+
+    public int getGiay() {
+        return giay;
+    }
+
+    public void setTime() {
+        if (getGiay() < 0) {
+            JOptionPane.showMessageDialog(null, " time over ");
+            pnBoard.setSanSang(false);
+        } else {
+            switch (getGiay()) {
+                case 15:
+                    ImageIcon II15 = new ImageIcon(getClass().getResource("/Image/Time/15.png"));
+                    lbtime.setIcon(II15);
+                    break;
+                case 14:
+                    ImageIcon II14 = new ImageIcon(getClass().getResource("/Image/Time/14.png"));
+                    lbtime.setIcon(II14);
+                    break;
+                case 13:
+                    ImageIcon II13 = new ImageIcon(getClass().getResource("/Image/Time/13.png"));
+                    lbtime.setIcon(II13);
+                    break;
+                case 12:
+                    ImageIcon II12 = new ImageIcon(getClass().getResource("/Image/Time/12.png"));
+                    lbtime.setIcon(II12);
+                    break;
+                case 11:
+                    ImageIcon II11 = new ImageIcon(getClass().getResource("/Image/Time/11.png"));
+                    lbtime.setIcon(II11);
+                    break;
+                case 10:
+                    ImageIcon II10 = new ImageIcon(getClass().getResource("/Image/Time/10.png"));
+                    lbtime.setIcon(II10);
+                    break;
+                case 9:
+                    ImageIcon II9 = new ImageIcon(getClass().getResource("/Image/Time/9.png"));
+                    lbtime.setIcon(II9);
+                    break;
+                case 8:
+                    ImageIcon II8 = new ImageIcon(getClass().getResource("/Image/Time/8.png"));
+                    lbtime.setIcon(II8);
+                    break;
+                case 7:
+                    ImageIcon II7 = new ImageIcon(getClass().getResource("/Image/Time/7.png"));
+                    lbtime.setIcon(II7);
+                    break;
+                case 6:
+                    ImageIcon II6 = new ImageIcon(getClass().getResource("/Image/Time/6.png"));
+                    lbtime.setIcon(II6);
+                    break;
+                case 5:
+                    ImageIcon II5 = new ImageIcon(getClass().getResource("/Image/Time/5.png"));
+                    lbtime.setIcon(II5);
+                    break;
+                case 4:
+                    ImageIcon II4 = new ImageIcon(getClass().getResource("/Image/Time/4.png"));
+                    lbtime.setIcon(II4);
+                    break;
+                case 3:
+                    ImageIcon II3 = new ImageIcon(getClass().getResource("/Image/Time/3.png"));
+                    lbtime.setIcon(II3);
+                    break;
+                case 2:
+                    ImageIcon II2 = new ImageIcon(getClass().getResource("/Image/Time/2.png"));
+                    lbtime.setIcon(II2);
+                    break;
+                case 1:
+                    ImageIcon II1 = new ImageIcon(getClass().getResource("/Image/Time/1.png"));
+                    lbtime.setIcon(II1);
+                    break;
+                case 0:
+                    ImageIcon II0 = new ImageIcon(getClass().getResource("/Image/Time/0.png"));
+                    lbtime.setIcon(II0);
+                    break;
+                
+            }
+        }
     }
 
     /**
@@ -43,6 +147,7 @@ public class PvC extends javax.swing.JFrame {
         pnBoard = new demo.Carochess();
         lbUndo = new javax.swing.JLabel();
         lbLose = new javax.swing.JLabel();
+        lbtime = new javax.swing.JLabel();
         lbPlay = new javax.swing.JLabel();
         lbBg = new javax.swing.JLabel();
 
@@ -109,6 +214,8 @@ public class PvC extends javax.swing.JFrame {
         });
         pnPvC.add(lbLose);
         lbLose.setBounds(772, 612, 65, 65);
+        pnPvC.add(lbtime);
+        lbtime.setBounds(652, 611, 82, 82);
 
         lbPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Board/Play.png"))); // NOI18N
         lbPlay.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -143,8 +250,8 @@ public class PvC extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-         
-     
+
+
     private void lbExitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExitMousePressed
         // TODO add your handling code here:
         ImageIcon II = new ImageIcon(getClass().getResource("/Image/Board/thoat_press.png"));
@@ -157,27 +264,30 @@ public class PvC extends javax.swing.JFrame {
         lbExit.setIcon(II);
         int x = evt.getX();
         int y = evt.getY();
-        if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))){
+        if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))) {
             dispose();
             this.mn.setVisible(true);
+            pnBoard.countTimeClose();
         }
     }//GEN-LAST:event_lbExitMouseReleased
 
     private void pnBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnBoardMouseReleased
-
-        if(pnBoard.DanhCo(evt.getX(), evt.getY(), grs))
-        {
-            if(pnBoard.KiemTraChienThang())
-            pnBoard.ThongBao();
-            else{
-                if(pnBoard.getCheDoChoi() == 2){
+        if (pnBoard.time != null) {
+            pnBoard.countTimeClose();
+        }
+        if (pnBoard.DanhCo(evt.getX(), evt.getY(), grs)) {
+            pnBoard.countTimeOpen(this);
+            if (pnBoard.KiemTraChienThang()) {
+                pnBoard.ThongBao();
+            } else {
+                if (_CheDoChoi == 2) {
                     pnBoard.KhoiDongComputer(grs);
-                    if(pnBoard.KiemTraChienThang())
-                    pnBoard.ThongBao();
+                    if (pnBoard.KiemTraChienThang()) {
+                        pnBoard.ThongBao();
+                    }
                 }
             }
         }
-
     }//GEN-LAST:event_pnBoardMouseReleased
 
     private void lbPlayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPlayMousePressed
@@ -192,8 +302,12 @@ public class PvC extends javax.swing.JFrame {
         lbPlay.setIcon(II);
         int x = evt.getX();
         int y = evt.getY();
-        if ((x > 0) && (x < (lbPlay.getWidth())) && (y > 0) && (y < (lbPlay.getHeight()))){
-            pnBoard.StartPvcC(grs);    
+        if ((x > 0) && (x < (lbPlay.getWidth())) && (y > 0) && (y < (lbPlay.getHeight()))) {
+            if(_CheDoChoi == 2){
+                pnBoard.StartPvcC(grs);
+                this.setGiay(16);
+            }
+            else pnBoard.StartPvsP(grs);
         }
     }//GEN-LAST:event_lbPlayMouseReleased
 
@@ -209,8 +323,11 @@ public class PvC extends javax.swing.JFrame {
         lbUndo.setIcon(II);
         int x = evt.getX();
         int y = evt.getY();
-        if ((x > 0) && (x < (lbUndo.getWidth())) && (y > 0) && (y < (lbUndo.getHeight()))){
-            pnBoard.Undo(grs);
+        if ((x > 0) && (x < (lbUndo.getWidth())) && (y > 0) && (y < (lbUndo.getHeight()))) {
+            this.setGiay(16);
+            if(_CheDoChoi==1)
+                pnBoard.UndoPvsP(grs);
+            else pnBoard.UndoPvsC(grs);
         }
     }//GEN-LAST:event_lbUndoMouseReleased
 
@@ -224,6 +341,8 @@ public class PvC extends javax.swing.JFrame {
         // TODO add your handling code here:
         ImageIcon II = new ImageIcon(getClass().getResource("/Image/Board/Lose.png"));
         lbLose.setIcon(II);
+        pnBoard.setKetThuc(Carochess.KetThuc.COM);
+        pnBoard.ThongBao();
     }//GEN-LAST:event_lbLoseMouseReleased
 
     /**
@@ -235,6 +354,7 @@ public class PvC extends javax.swing.JFrame {
     private javax.swing.JLabel lbLose;
     private javax.swing.JLabel lbPlay;
     private javax.swing.JLabel lbUndo;
+    private javax.swing.JLabel lbtime;
     private demo.Carochess pnBoard;
     private javax.swing.JPanel pnPvC;
     // End of variables declaration//GEN-END:variables

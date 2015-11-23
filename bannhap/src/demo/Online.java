@@ -50,6 +50,8 @@ public class Online extends javax.swing.JFrame {
                 sms.setPort(port);
                 sms.setId_user(mn.getId_user());
                 this.mn.getSk().SendData(sms);
+                //NẾU mà tạo phòng thì cho biến sẵn sàng false
+                this.carochess1.setSanSang(false);
         }else{
             try {
                 Skcl = new Socket(address,port);
@@ -58,6 +60,8 @@ public class Online extends javax.swing.JFrame {
                 player = new nhanDataNguoiChoi(this, ois, Skcl);
                 player.start();
                 SendData(new message_Cls("chat","vao choi mi"));
+                //nếu đã kết nối thành công thì cho cờ đánh bằng true
+                this.carochess1.setSanSang(true);
             }catch (Exception e) {
                 e.printStackTrace();
             }
@@ -90,6 +94,22 @@ public class Online extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "loi gui data");
             e.printStackTrace();
         }
+    }
+
+    public Carochess getPnBoard() {
+        return pnBoard;
+    }
+
+    public void setPnBoard(Carochess pnBoard) {
+        this.pnBoard = pnBoard;
+    }
+
+    public Graphics getGrs() {
+        return grs;
+    }
+
+    public void setGrs(Graphics grs) {
+        this.grs = grs;
     }
    
     @SuppressWarnings("unchecked")
@@ -191,17 +211,32 @@ public class Online extends javax.swing.JFrame {
 
     private void pnBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnBoardMouseReleased
 
-      int cl=evt.getX()/25;
-        int rw=evt.getY()/25;
+      if(this.carochess1.isSanSang()){
+          int cl=evt.getX()/25;
+            int rw=evt.getY()/25;
+            Oco oc = new Oco();
+            oc.setCot(cl);
+            oc.setDong(rw);
+            DanhCoOnline(oc);
+            //đánh xg cho nó false để đợi
+            this.carochess1.setSanSang(false);
+      }else{
+          JOptionPane.showMessageDialog(null,"vui lòng đợi đến lượt bạn");
+      }
         //
 //        this.mn.getSk().SendData();
-        if(pnBoard.DanhCo_CS(evt.getX(), evt.getY(), grs))
+       
+    }//GEN-LAST:event_pnBoardMouseReleased
+    public void DanhCoOnline(Oco oc){
+        int cl=oc.getCot();
+        int rw=oc.getDong();
+         if(pnBoard.DanhCo_CS(oc.getDong(),oc.getCot(), grs))
         {
             Oco oc1=pnBoard.getMangOCo(rw, cl);
-            message_Cls sms = new message_Cls("danh co","da danh cai ni"+evt.getX()+"-"+evt.getY());
+            message_Cls sms = new message_Cls("danh co","da danh cai ni"+cl+"-"+rw);
             sms.setOc(oc1);
             this.mn.getSk().SendData(sms);
-            SendData(sms);
+            this.SendData(sms);
             if(pnBoard.getLuotDi()==1)
                 pnBoard.getBanCo().VeQuanCo(grs, pnBoard.getMangOCo(rw, cl).getVitri(), pnBoard.getImageX());
             else
@@ -216,8 +251,7 @@ public class Online extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_pnBoardMouseReleased
-
+    }
     private void lbExitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExitMousePressed
         // TODO add your handling code here:
         ImageIcon II = new ImageIcon(getClass().getResource("/Image/Board/thoat_press.png"));

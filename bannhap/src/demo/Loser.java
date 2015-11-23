@@ -5,17 +5,22 @@
  */
 package demo;
 
+import javax.swing.ImageIcon;
+
 /**
  *
- * @author Admin
+ * @author PC
  */
-public class Loser extends javax.swing.JFrame {
+public class Loser extends javax.swing.JDialog {
 
     /**
      * Creates new form Loser
      */
-    public Loser() {
+    public Loser(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        setOpacity(0.92f);
     }
 
     /**
@@ -27,66 +32,72 @@ public class Loser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbLoser = new javax.swing.JLabel();
+        pnLose = new javax.swing.JPanel();
+        lbOk = new javax.swing.JLabel();
+        lbBg = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
-        lbLoser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Board/Loser.png"))); // NOI18N
+        pnLose.setPreferredSize(new java.awt.Dimension(1000, 700));
+        pnLose.setLayout(null);
+
+        lbOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Board/Ok.png"))); // NOI18N
+        lbOk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lbOkMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbOkMouseReleased(evt);
+            }
+        });
+        pnLose.add(lbOk);
+        lbOk.setBounds(423, 398, 172, 73);
+
+        lbBg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Board/Thua.png"))); // NOI18N
+        lbBg.setOpaque(false);
+        pnLose.add(lbBg);
+        lbBg.setBounds(0, 0, 1000, 700);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(lbLoser, javax.swing.GroupLayout.PREFERRED_SIZE, 946, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnLose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lbLoser, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnLose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Loser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Loser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Loser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Loser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void lbOkMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbOkMousePressed
+        // TODO add your handling code here:
+        ImageIcon II = new ImageIcon(getClass().getResource("/Image/Board/Ok_press.png"));
+        lbOk.setIcon(II);
+    }//GEN-LAST:event_lbOkMousePressed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Loser().setVisible(true);
-            }
-        });
-    }
+    private void lbOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbOkMouseReleased
+        // TODO add your handling code here:
+        ImageIcon II = new ImageIcon(getClass().getResource("/Image/Board/Ok.png"));
+        lbOk.setIcon(II);
+        int x = evt.getX();
+        int y = evt.getY();
+        if ((x > 0) && (x < (lbOk.getWidth())) && (y > 0) && (y < (lbOk.getHeight()))){
+            dispose();
+        }
+    }//GEN-LAST:event_lbOkMouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lbLoser;
+    private javax.swing.JLabel lbBg;
+    private javax.swing.JLabel lbOk;
+    private javax.swing.JPanel pnLose;
     // End of variables declaration//GEN-END:variables
 }

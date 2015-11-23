@@ -25,7 +25,7 @@ public class Menu extends javax.swing.JFrame {
     private GuiDataDemoThs sk;
     private HangDoiTimPhong hdtp;
     int serverPort  = 1111;
-    String serverAddress = "localhost";
+    String serverAddress ;
     int id_phong,id_user;
     Online onl;
     public Menu() {
@@ -66,6 +66,11 @@ public class Menu extends javax.swing.JFrame {
     }
 
     public String getServerAddress() {
+        if(serverAddress==null){
+            String inet = JOptionPane.showInputDialog(null,"CHÓ NGU NHẬP IP SERVER MI");
+            System.out.println(inet);
+            setServerAddress(inet);
+        }
         return serverAddress;
     }
 
@@ -229,7 +234,7 @@ public class Menu extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();      
         if ((x > 0) && (x < (lbPvC.getWidth())) && (y > 0) && (y < (lbPvC.getHeight()))) {
-            PvC pc = new PvC(this);
+            PvC pc = new PvC(this,1);
             pc.setVisible(true);
             this.dispose();
         }
@@ -248,7 +253,7 @@ public class Menu extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();      
         if ((x > 0) && (x < (lbPvP.getWidth())) && (y > 0) && (y < (lbPvP.getHeight()))) {
-            PvP pc = new PvP(this);
+            PvC pc = new PvC(this);
             pc.setVisible(true);
             this.setVisible(false);
             this.dispose();

@@ -24,7 +24,7 @@ public class GuiDataDemoThs {
     Socket sk;
     ObjectOutputStream oos;
     String name;
-    NhanDataDemoThs nhanData;
+    NhanDataServerThs nhanData;
     boolean Islife =false;
     
     public GuiDataDemoThs(String name) {
@@ -43,7 +43,7 @@ public class GuiDataDemoThs {
             if (sms2 != null) {
                 if (sms2.isCf()) {
                     mn.setHdtp(new HangDoiTimPhong(mn));
-                    nhanData = new NhanDataDemoThs(sk, name, ois, mn);
+                    nhanData = new NhanDataServerThs(sk, name, ois, mn);
                     nhanData.start();
                     mn.setNotice(sms2.getDesc());
                     mn.setId_user(sms2.getId_user());

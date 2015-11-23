@@ -18,14 +18,14 @@ import javax.swing.JOptionPane;
  *
  * @author naruto
  */
-public class NhanDataDemoThs extends Thread {
+public class NhanDataServerThs extends Thread {
 
     Socket sk;
     ObjectInputStream ois;
     Menu mn;
     HangDoiTimPhong hdtp;
 
-    public NhanDataDemoThs(Socket sk, String name, ObjectInputStream ois, Menu mn) {
+    public NhanDataServerThs(Socket sk, String name, ObjectInputStream ois, Menu mn) {
         super(name);
         this.sk = sk;
         this.ois = ois;

@@ -23,6 +23,10 @@ import javax.swing.JPanel;
  */
 public class Carochess extends JPanel {
 
+    Object getMangOCo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public enum KetThuc {
 
         HoaCo,
@@ -30,9 +34,63 @@ public class Carochess extends JPanel {
         Player2,
         COM
     };
-
     public static ImageIcon imageO;
+    public static ImageIcon imageX;
+    public static ImageIcon imageBanCo;
+    private boolean _SanSang;
+    private BanCo _BanCo;
+    private Oco[][] _MangOCo;
 
+    private int _LuotDi;
+    timeThreadCLs time;
+    PvC pc;
+    public boolean isSanSang() {
+        return _SanSang;
+    }
+
+    public void setSanSang(boolean _SanSang) {
+        this._SanSang = _SanSang;
+    }
+    
+    
+
+    public Stack<Oco> stk_CacNuocDaDi;
+    public KetThuc _KetThuc;
+
+    public KetThuc getKetThuc() {
+        return _KetThuc;
+    }
+
+    public void setKetThuc(KetThuc _KetThuc) {
+        this._KetThuc = _KetThuc;
+    }
+
+    public Carochess() {
+
+        _BanCo = new BanCo(20, 20);
+        _MangOCo = new Oco[_BanCo.getSoDong()][_BanCo.getSoCot()];
+        imageO = new ImageIcon(getClass().getResource("/Image/oo.png"));
+        imageX = new ImageIcon(getClass().getResource("/Image/x.png"));
+        imageBanCo = new ImageIcon(getClass().getResource("/Image/banco_fix.png"));
+        _LuotDi = 1;
+        stk_CacNuocDaDi = new Stack<Oco>();
+        eBoard = new EvalBoard();
+    }
+
+    public void KhoiTaoMangOCo() {
+        for (int i = 0; i < _BanCo.getSoDong(); i++) {
+            for (int j = 0; j < _BanCo.getSoCot(); j++) {
+                _MangOCo[i][j] = new Oco(i, j, new Point(j * 25, i * 25), 0);
+            }
+        }
+    }
+    public BanCo getBanCo() {
+        return _BanCo;
+    }
+
+    public void setBanCo(BanCo _BanCo) {
+        this._BanCo = _BanCo;
+    }
     public static ImageIcon getImageO() {
         return imageO;
     }
@@ -40,7 +98,6 @@ public class Carochess extends JPanel {
     public static void setImageO(ImageIcon imageO) {
         Carochess.imageO = imageO;
     }
-    public static ImageIcon imageX;
 
     public static ImageIcon getImageX() {
         return imageX;
@@ -49,19 +106,6 @@ public class Carochess extends JPanel {
     public static void setImageX(ImageIcon imageX) {
         Carochess.imageX = imageX;
     }
-    public static ImageIcon imageBanCo;
-    private boolean _SanSang;
-    private BanCo _BanCo;
-
-    public BanCo getBanCo() {
-        return _BanCo;
-    }
-
-    public void setBanCo(BanCo _BanCo) {
-        this._BanCo = _BanCo;
-    }
-    private Oco[][] _MangOCo;
-
     public Oco getMangOCo(int i,int j) {
         return _MangOCo[i][j];
     }
@@ -69,7 +113,6 @@ public class Carochess extends JPanel {
     public void setMangOCo(Oco[][] _MangOCo) {
         this._MangOCo = _MangOCo;
     }
-    private int _LuotDi;
 
     public int getLuotDi() {
         return _LuotDi;
@@ -87,30 +130,6 @@ public class Carochess extends JPanel {
     public void setCheDoChoi(int _CheDoChoi) {
         this._CheDoChoi = _CheDoChoi;
     }
-
-    private Stack<Oco> stk_CacNuocDaDi;
-    private KetThuc _KetThuc;
-
-    public Carochess() {
-
-        _BanCo = new BanCo(20, 20);
-        _MangOCo = new Oco[_BanCo.getSoDong()][_BanCo.getSoCot()];
-        imageO = new ImageIcon(getClass().getResource("/Image/o.png"));
-        imageX = new ImageIcon(getClass().getResource("/Image/x.png"));
-        imageBanCo = new ImageIcon(getClass().getResource("/Image/banco_fix.png"));
-        _LuotDi = 1;
-        stk_CacNuocDaDi = new Stack<Oco>();
-        eBoard = new EvalBoard();
-    }
-
-    public void KhoiTaoMangOCo() {
-        for (int i = 0; i < _BanCo.getSoDong(); i++) {
-            for (int j = 0; j < _BanCo.getSoCot(); j++) {
-                _MangOCo[i][j] = new Oco(i, j, new Point(j * 25, i * 25), 0);
-            }
-        }
-    }
-
     public boolean DanhCo(int MouseX, int MouseY, Graphics g) {
         //if(MouseX % 25 == 0 || MouseY % 25 == 0)
         //   return false;
@@ -119,8 +138,9 @@ public class Carochess extends JPanel {
         if (_MangOCo[Dong][Cot].getSohuu() != 0) {
             return false;
         }
-        if (_SanSang == false) 
+        if (_SanSang == false) {
             return false;
+        }
         switch (_LuotDi) {
             case 1:
                 _MangOCo[Dong][Cot].setSohuu(1);
@@ -135,18 +155,17 @@ public class Carochess extends JPanel {
             default:
                 JOptionPane.showMessageDialog(null, "Co loi");
                 break;
-            
+
         }
         Oco oco = new Oco(_MangOCo[Dong][Cot].getDong(), _MangOCo[Dong][Cot].getCot(), _MangOCo[Dong][Cot].getVitri(), _MangOCo[Dong][Cot].getSohuu());
         stk_CacNuocDaDi.push(oco);
         return true;
     }
-    
-    public boolean DanhCo_CS(int MouseX, int MouseY, Graphics g) {
+public boolean DanhCo_CS(int Cot, int Dong, Graphics g) {
         //if(MouseX % 25 == 0 || MouseY % 25 == 0)
         //   return false;
-        int Cot = (MouseX) / 25;
-        int Dong = (MouseY) / 25;
+//        int Cot = (MouseX) / 25;
+//        int Dong = (MouseY) / 25;
         if (_MangOCo[Dong][Cot].getSohuu() != 0) {
             return false;
         }
@@ -170,9 +189,9 @@ public class Carochess extends JPanel {
         }
         Oco oco = new Oco(_MangOCo[Dong][Cot].getDong(), _MangOCo[Dong][Cot].getCot(), _MangOCo[Dong][Cot].getVitri(), _MangOCo[Dong][Cot].getSohuu());
         stk_CacNuocDaDi.push(oco);
+        this._SanSang = false;
         return true;
     }
-
     public void VeLaiQuanCo(Graphics g) {
         Iterator it = stk_CacNuocDaDi.iterator();
         while (it.hasNext()) {
@@ -188,22 +207,25 @@ public class Carochess extends JPanel {
 // <editor-fold desc="Duyet_Chien_Thang">
 
     public void ThongBao() {
+        countTimeClose();
         switch (_KetThuc) {
             case HoaCo: {
                 JOptionPane.showMessageDialog(null, "Hòa Cờ");
                 break;
             }
             case Player1: {
+                Loser l = new Loser(null,true);
+                l.setVisible(true);
+                break;
+            }
+            case Player2: {
                 Winner win = new Winner(null, true);
                 win.setVisible(true);
                 break;
             }
-            case Player2: {
-                JOptionPane.showMessageDialog(null, "Player 2 Win");
-                break;
-            }
             case COM: {
-                JOptionPane.showMessageDialog(null, "COM Win");
+                Loser l = new Loser(null,true);
+                l.setVisible(true);
                 break;
             }
         }
@@ -226,20 +248,10 @@ public class Carochess extends JPanel {
         }
         return false;
     }
-    
-    public void Undo(Graphics g){
-        if(stk_CacNuocDaDi.size() !=0){
-            Oco oco=stk_CacNuocDaDi.pop();
-            _MangOCo[oco.getDong()][oco.getCot()].setSohuu(0);
-            System.out.println(oco.getCot() +"-"+ oco.getDong());
-            paint(g);
-            if(_LuotDi == 1)
-                _LuotDi = 2;
-            else
-                _LuotDi = 1;
-        }
-    }
 
+   
+
+    
     private boolean DuyetDoc(int curDong, int curCot, int curSohuu) {
         if (curDong > _BanCo.getSoDong() - 5) {
             return false;
@@ -317,6 +329,45 @@ public class Carochess extends JPanel {
         return false;
     }
 // </editor-fold>
+    
+     public void UndoPvsP(Graphics g) {
+        if (stk_CacNuocDaDi.size() != 0) {
+            Oco oco = stk_CacNuocDaDi.pop();
+                _MangOCo[oco.getDong()][oco.getCot()].setSohuu(0);
+                if (_LuotDi == 1)
+                    _LuotDi = 2;            
+                else 
+                    _LuotDi = 1;
+            }
+        _SanSang = true;
+        paint(g);
+    }
+     
+   public void UndoPvsC(Graphics g){
+       if(stk_CacNuocDaDi.size() >= 2){
+           Oco oco=stk_CacNuocDaDi.pop();
+           Oco oco1=stk_CacNuocDaDi.pop();
+           _MangOCo[oco.getDong()][oco.getCot()].setSohuu(0);
+           _MangOCo[oco1.getDong()][oco1.getCot()].setSohuu(0);
+       }
+       _SanSang=true;
+       paint(g);
+       
+   }
+
+     
+    public void countTimeOpen(PvC pc) {
+        pc.setGiay(16);
+        this.time = new timeThreadCLs(pc);
+        this.time.start();
+
+    }
+
+    public void countTimeClose() {
+        if (this.time.isAlive()) {
+            this.time.stop();
+        }
+    }
 
     public void StartPvsP(Graphics g) {
         _SanSang = true;
@@ -330,7 +381,7 @@ public class Carochess extends JPanel {
         _SanSang = true;
         stk_CacNuocDaDi = new Stack<Oco>();
         _LuotDi = 1;
-        _CheDoChoi = 2;
+        //_CheDoChoi = 2;
         KhoiTaoMangOCo();
         paint(g);
         KhoiDongComputer(g);
@@ -347,12 +398,12 @@ public class Carochess extends JPanel {
     public boolean fWin = false;
     public int fEnd = 1;
 
-    public int DScore[] = {0, 1, 9, 81, 729};
+    public int DScore[] = {0, 1, 9, 81, 729, 6561};
 
     //public int[] AScore = new int[5] { 0, 3, 24, 243, 2197 };
-    public int AScore[] = {0, 2, 18, 162, 1458};
+    public int AScore[] = {0, 2, 18, 162, 1458, 12288};
 
-        //public int[] AScore = new int[5] { 0, 1, 9, 81, 729 };
+    //public int[] AScore = new int[5] { 0, 1, 9, 81, 729 };
     Point[] PCMove = new Point[maxMove + 2];
     Point[] HumanMove = new Point[maxMove + 2];
     //Point[] WinMove = new Point[maxDepth+2];
@@ -377,7 +428,7 @@ public class Carochess extends JPanel {
                         ePC++;
                     }
                 }
-
+                
                 if (eHuman * ePC == 0 && eHuman != ePC) {
                     for (int i = 0; i < 5; i++) {
                         if (_MangOCo[rw][cl + i].getSohuu() == 0) // Neu o chua duoc danh
@@ -419,7 +470,7 @@ public class Carochess extends JPanel {
                         ePC++;
                     }
                 }
-
+                
                 if (eHuman * ePC == 0 && eHuman != ePC) {
                     for (int i = 0; i < 5; i++) {
                         if (_MangOCo[rw + i][cl].getSohuu() == 0) // Neu o chua duoc danh

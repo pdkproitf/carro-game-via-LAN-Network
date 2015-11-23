@@ -11,8 +11,14 @@ import java.awt.Button;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 
 /**
@@ -80,8 +86,13 @@ public class HangDoiTimPhong extends javax.swing.JFrame{
         this.show();
     }
     public final void vaoPhong(int port){
-        new Online(mn, true,0,port,"localhost").show();;
-         this.dispose();
+        try {
+            String inet = Inet4Address.getLocalHost().toString();
+            new Online(mn, true,0,port,inet).show();;
+            this.dispose();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(HangDoiTimPhong.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

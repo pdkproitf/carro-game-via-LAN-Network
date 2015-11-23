@@ -34,7 +34,8 @@ public class nhanDataNguoiChoi extends Thread{
                         System.out.println("nhan :::::"+sms.getStatus()+sms.getDesc());
                         switch (sms.getStatus()) {
                             case "danh co":
-                                
+                                this.olne.DanhCoOnline(sms.getOc());
+                                this.olne.getPnBoard().setSanSang(true);
                                 break;
                             case "chat":
                                 System.out.println("may chu "+sms.getDesc());

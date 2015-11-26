@@ -19,6 +19,7 @@ public class nhanDataNguoiChoi extends Thread{
     ObjectInputStream ois;
     Online olne;
     Socket sk;
+    message_Cls smsCL = new message_Cls();
     public nhanDataNguoiChoi(Online onl,ObjectInputStream ois,Socket sk){
         this.olne = onl;
         this.ois = ois;
@@ -27,20 +28,22 @@ public class nhanDataNguoiChoi extends Thread{
         public void run() {
         while (true) {
             try {
-                System.out.println("dang hoat dong");
                 if (!this.sk.isClosed()) {
                     message_Cls sms = (message_Cls) ois.readObject();
-                    if (sms != null) {
+                    if ((sms != null)) {
                         System.out.println("nhan :::::"+sms.getStatus()+sms.getDesc());
                         switch (sms.getStatus()) {
                             case "danh co":
+                                System.out.println("----trc khi danh "+this.olne.getCarochess1().isSanSang());
                                 this.olne.DanhCoOnline(sms.getOc());
-                                System.out.println("da danh xg "+this.olne.getCarochess1().isSanSang());
-                                this.olne.getPnBoard().setSanSang(true);
-                                System.out.println("so luc nay "+this.olne.getCarochess1().isSanSang());
+                                this.olne.getCarochess1().setSanSang(true);
+                                System.out.println("---co luc nay "+this.olne.getCarochess1().isSanSang());
                                 break;
                             case "chat":
                                 System.out.println("may chu "+sms.getDesc());
+                                break;
+                            case "thoat":
+                                this.olne.closeSK();
                                 break;
                             default:
                                 
@@ -53,8 +56,7 @@ public class nhanDataNguoiChoi extends Thread{
                 }
                 Thread.sleep(100);
             } catch (Exception e) {
-                System.out.println("loi nhan tin");
-                e.printStackTrace();
+                System.out.println("loi nhan tin "+e.getMessage());
             }
         }
     }

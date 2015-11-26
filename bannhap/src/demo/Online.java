@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package demo;
 
 import dungchung.Oco;
@@ -18,23 +17,23 @@ import java.net.Socket;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-
 public class Online extends javax.swing.JFrame {
 
-    
     private Graphics grs;
     Menu mn;
     ServerSocket Svcl;
     Socket Skcl;
-    int port,id_phong;
+    int port, id_phong;
     ObjectInputStream ois;
     ObjectOutputStream oos;
     nhanDataNguoiChoi player;
-    String address ;
+    String address;
     boolean cftaoPhong;
-    public Online(Menu mn,boolean  cftaoPhong,int id_phong,int port,String address) {
+    turnOff turn;
+
+    public Online(Menu mn, boolean cftaoPhong, int id_phong, int port, String address) {
         initComponents();
-        grs=pnBoard.getGraphics();
+        grs = pnBoard.getGraphics();
 //        pnBoard.KhoiTaoMangOCo();
         pnBoard.StartPvsP(grs);
         setLocationRelativeTo(null);
@@ -42,27 +41,28 @@ public class Online extends javax.swing.JFrame {
         this.port = port;
         this.address = address;
         this.cftaoPhong = cftaoPhong;
-        if(cftaoPhong){
+        if (cftaoPhong) {
             System.out.println("gui tin tao phong");
             //gui thong tin dang ky phong len server
-                message_Cls sms = new message_Cls("tao phong","new phong");
-                sms.setInetAddress(address);
-                sms.setPort(port);
-                sms.setId_user(mn.getId_user());
-                this.mn.getSk().SendData(sms);
-                //NẾU mà tạo phòng thì cho biến sẵn sàng false
-                this.carochess1.setSanSang(false);
-        }else{
+            message_Cls sms = new message_Cls("tao phong", "new phong");
+            sms.setInetAddress(address);
+            sms.setPort(port);
+            sms.setId_user(mn.getId_user());
+            this.mn.getSk().SendData(sms);
+            //NẾU mà tạo phòng thì cho biến sẵn sàng false
+            this.carochess1.setSanSang(false);
+        } else {
             try {
-                Skcl = new Socket(address,port);
-                oos= new ObjectOutputStream(Skcl.getOutputStream());
+                Skcl = new Socket(address, port);
+                oos = new ObjectOutputStream(Skcl.getOutputStream());
                 ois = new ObjectInputStream(Skcl.getInputStream());
                 player = new nhanDataNguoiChoi(this, ois, Skcl);
                 player.start();
-                SendData(new message_Cls("chat","vao choi mi"));
+                SendData(new message_Cls("chat", "vao choi mi"));
+                this.Jbt_Doi.disable();
                 //nếu đã kết nối thành công thì cho cờ đánh bằng true
                 this.carochess1.setSanSang(true);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -75,26 +75,35 @@ public class Online extends javax.swing.JFrame {
     public void setCarochess1(Carochess carochess1) {
         this.carochess1 = carochess1;
     }
-    
-       public void Connect(){
-            try {
-                //tao 1 ket noi
-                Svcl = new ServerSocket(port);
-                //dang cho nguoi choi
-                System.out.println("dang hco nguoi choi");
-                Skcl = Svcl.accept();
-                System.out.println("da co nguoi choi");
-                oos= new ObjectOutputStream(Skcl.getOutputStream());
-                ois = new ObjectInputStream(Skcl.getInputStream());
-                SendData(new message_Cls("chat","vao choi mi"));
-                player = new nhanDataNguoiChoi(this, ois, Skcl);
-                player.start();
-                this.carochess1.setSanSang(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-       }
-       public void SendData(message_Cls sms) {
+
+    public void Connect2() {
+        try {
+            
+            Svcl = new ServerSocket(port);
+            //gui len server thoi gian cho
+            message_Cls sms = new message_Cls("time", "10");
+            sms.setInetAddress(address);
+            sms.setPort(port);
+            sms.setIdPhong(this.mn.getId_phong());
+            this.mn.getSk().SendData(sms);
+            
+            //dang cho nguoi choi
+            System.out.println("dang hco nguoi choi");
+            Skcl = Svcl.accept();
+            System.out.println("da co nguoi choi");
+            
+            oos = new ObjectOutputStream(Skcl.getOutputStream());
+            ois = new ObjectInputStream(Skcl.getInputStream());
+            
+            player = new nhanDataNguoiChoi(this, ois, Skcl);
+            player.start();
+            this.carochess1.setSanSang(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void SendData(message_Cls sms) {
         try {
             this.oos.writeObject(sms);
             this.oos.flush();
@@ -103,6 +112,18 @@ public class Online extends javax.swing.JFrame {
             System.out.println("loi gui data");
             JOptionPane.showMessageDialog(null, "loi gui data");
             e.printStackTrace();
+        }
+    }
+
+    public void closeSK() {
+        try {
+            if (this.Skcl != null) {
+                this.Skcl.close();
+            }
+            if (this.Svcl != null) {
+                this.Svcl.close();
+            }
+        } catch (Exception e) {
         }
     }
 
@@ -121,7 +142,7 @@ public class Online extends javax.swing.JFrame {
     public void setGrs(Graphics grs) {
         this.grs = grs;
     }
-   
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -129,7 +150,7 @@ public class Online extends javax.swing.JFrame {
         carochess1 = new demo.Carochess();
         pnPlayOnline = new javax.swing.JPanel();
         pnBoard = new demo.Carochess();
-        jButton1 = new javax.swing.JButton();
+        Jbt_Doi = new javax.swing.JButton();
         lbLose = new javax.swing.JLabel();
         lbExit = new javax.swing.JLabel();
         lbBg = new javax.swing.JLabel();
@@ -163,14 +184,14 @@ public class Online extends javax.swing.JFrame {
         pnPlayOnline.add(pnBoard);
         pnBoard.setBounds(369, 47, 501, 501);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Jbt_Doi.setText("đợi");
+        Jbt_Doi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Jbt_DoiActionPerformed(evt);
             }
         });
-        pnPlayOnline.add(jButton1);
-        jButton1.setBounds(120, 380, 73, 23);
+        pnPlayOnline.add(Jbt_Doi);
+        Jbt_Doi.setBounds(120, 380, 47, 23);
 
         lbLose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Board/Lose.png"))); // NOI18N
         lbLose.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -220,44 +241,47 @@ public class Online extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnBoardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnBoardMouseReleased
-
-      if(this.carochess1.isSanSang()){
-          int cl=evt.getX()/25;
-            int rw=evt.getY()/25;
+        System.out.println("C66666666666666o online " + this.carochess1.isSanSang());
+        if (this.carochess1.isSanSang()) {
+            this.carochess1.setSanSang(false);
+            int cl = evt.getX() / 25;
+            int rw = evt.getY() / 25;
             Oco oc = new Oco();
             oc.setCot(cl);
             oc.setDong(rw);
+            Oco oc1 = pnBoard.getMangOCo(rw, cl);
+            message_Cls sms = new message_Cls("danh co", "da danh cai ni" + cl + "-" + rw);
+            sms.setOc(oc1);
             DanhCoOnline(oc);
+            this.SendData(sms);
             //đánh xg cho nó false để đợi
-            this.carochess1.setSanSang(false);
-      }else{
-          JOptionPane.showMessageDialog(null,"vui lòng đợi đến lượt bạn");
-      }
+        } else {
+            JOptionPane.showMessageDialog(null, "vui lòng đợi đến lượt bạn");
+        }
+        System.out.println("co ovvvvvvvvvvvvvnline sau " + this.carochess1.isSanSang());
         //
 //        this.mn.getSk().SendData();
-       
+
     }//GEN-LAST:event_pnBoardMouseReleased
-    public void DanhCoOnline(Oco oc){
-        int cl=oc.getCot();
-        int rw=oc.getDong();
-         if(pnBoard.DanhCo_CS(oc.getDong(),oc.getCot(), grs))
-        {
-            Oco oc1=pnBoard.getMangOCo(rw, cl);
-            message_Cls sms = new message_Cls("danh co","da danh cai ni"+cl+"-"+rw);
-            sms.setOc(oc1);
-            this.mn.getSk().SendData(sms);
-            this.SendData(sms);
-            if(pnBoard.getLuotDi()==1)
+    public void DanhCoOnline(Oco oc) {
+        int cl = oc.getCot();
+        int rw = oc.getDong();
+        if (pnBoard.DanhCo_CS(oc.getDong(), oc.getCot(), grs)) {
+
+//            this.mn.getSk().SendData(sms);
+            if (pnBoard.getLuotDi() == 1) {
                 pnBoard.getBanCo().VeQuanCo(grs, pnBoard.getMangOCo(rw, cl).getVitri(), pnBoard.getImageX());
-            else
+            } else {
                 pnBoard.getBanCo().VeQuanCo(grs, pnBoard.getMangOCo(rw, cl).getVitri(), pnBoard.getImageO());
-            if(pnBoard.KiemTraChienThang())
-            pnBoard.ThongBao();
-            else{
-                if(pnBoard.getCheDoChoi() == 2){
+            }
+            if (pnBoard.KiemTraChienThang()) {
+                pnBoard.ThongBao();
+            } else {
+                if (pnBoard.getCheDoChoi() == 2) {
                     pnBoard.KhoiDongComputer(grs);
-                    if(pnBoard.KiemTraChienThang())
-                    pnBoard.ThongBao();
+                    if (pnBoard.KiemTraChienThang()) {
+                        pnBoard.ThongBao();
+                    }
                 }
             }
         }
@@ -274,17 +298,17 @@ public class Online extends javax.swing.JFrame {
         lbExit.setIcon(II);
         int x = evt.getX();
         int y = evt.getY();
-        if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))){
-            System.out.println("name "+this.getName());
-            this.mn.getSk().SendData(new message_Cls("thoat phong",this.id_phong+""));
-            if(this.mn.getHdtp()!=null){
+        if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))) {
+            System.out.println("name " + this.getName());
+            this.mn.getSk().SendData(new message_Cls("thoat phong", this.id_phong + ""));
+            if (this.mn.getHdtp() != null) {
                 this.mn.getHdtp().show();
                 this.mn.getHdtp().YeuCauPhong();
-            }else{
+            } else {
                 this.mn.setHdtp(new HangDoiTimPhong(mn));
             }
             this.dispose();
-        }      
+        }
     }//GEN-LAST:event_lbExitMouseReleased
 
     private void lbLoseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLoseMousePressed
@@ -299,20 +323,19 @@ public class Online extends javax.swing.JFrame {
         lbLose.setIcon(II);
         int x = evt.getX();
         int y = evt.getY();
-        if ((x > 0) && (x < (lbLose.getWidth())) && (y > 0) && (y < (lbLose.getHeight()))){
+        if ((x > 0) && (x < (lbLose.getWidth())) && (y > 0) && (y < (lbLose.getHeight()))) {
             new Carochess().ThongBao();
         }
     }//GEN-LAST:event_lbLoseMouseReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Connect();
-    }//GEN-LAST:event_jButton1ActionPerformed
- 
+    private void Jbt_DoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Jbt_DoiActionPerformed
+        Connect2();
+    }//GEN-LAST:event_Jbt_DoiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Jbt_Doi;
     private demo.Carochess carochess1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbBg;
     private javax.swing.JLabel lbExit;
     private javax.swing.JLabel lbLose;

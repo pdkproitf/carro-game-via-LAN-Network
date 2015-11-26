@@ -41,7 +41,7 @@ public class NhanDataServerThs extends Thread {
                 if (!this.sk.isClosed()) {
                     message_Cls sms = (message_Cls) ois.readObject();
                     if (sms != null) {
-//                        System.out.println("nhan :::::"+sms.getStatus()+sms.getDesc());
+                        System.out.println("44->(nhan data server) nhan :::::"+sms.getStatus()+sms.getDesc());
                         switch (sms.getStatus()) {
                             case "rooms":
                                 if(sms.isCf()){
@@ -51,7 +51,7 @@ public class NhanDataServerThs extends Thread {
                                 }
                                 break;
                             case "vao phong":
-                                System.out.println("da nhan duoc => " + sms.getDesc()+" co "+sms.isCf());
+                                System.out.println("54->(nhan data server) da nhan duoc => " + sms.getDesc()+" co "+sms.isCf());
                                 if (sms.isCf()) {
                                     Online onl = new Online(this.mn,false,sms.getIdPhong(),sms.getPort(),sms.getInetAddress());
                                     onl.show();
@@ -64,7 +64,7 @@ public class NhanDataServerThs extends Thread {
                                 break;
                             case "tao phong"://server se cung cap cho 1 id phong
                                 if(sms.isCf()){
-                                    System.out.println(sms.getDesc()+"  ===================== id phog "+sms.getIdPhong());
+                                    System.out.println("67->(nhan data server)"+sms.getDesc()+"  ===================== id phog "+sms.getIdPhong());
                                     this.mn.setId_phong(sms.getIdPhong());
 //                                    this.mn.getOnl().Connect(sms.getPort(),sms.getInetAddress());
                                 }
@@ -72,19 +72,18 @@ public class NhanDataServerThs extends Thread {
                                 break;
                             default:
                                 this.mn.getSk().SendData(new message_Cls("ok", "da nhan duoc"));
-                                System.out.println("da nhan duoc => " + sms.getDesc());
+                                System.out.println("75->(nhan data server)da nhan duoc => " + sms.getDesc());
                                 this.mn.setNotice(sms.getDesc());
                         }
                     }
                 } else {
-                    System.out.println("da dong socket");
+                    System.out.println("80->(nhan data server) da dong socket");
                     this.sk.close();
                     this.stop();
                 }
                 Thread.sleep(100);
             } catch (Exception e) {
-                System.out.println("loi nhan tin");
-                e.printStackTrace();
+                System.out.println("87->loi nhan tin server "+e.getMessage());
             }
         }
     }

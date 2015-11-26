@@ -306,7 +306,12 @@ public class Online extends javax.swing.JFrame {
                 this.mn.getHdtp().YeuCauPhong();
             } else {
                 this.mn.setHdtp(new HangDoiTimPhong(mn));
+                this.mn.getHdtp().YeuCauPhong();
             }
+            message_Cls sms = new message_Cls("thoat rooms", "");
+            sms.setIdPhong(this.mn.getId_phong());
+            System.out.println("id phong                      => "+sms.getIdPhong());
+            this.mn.getSk().SendData(sms);
             this.dispose();
         }
     }//GEN-LAST:event_lbExitMouseReleased

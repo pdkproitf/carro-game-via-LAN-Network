@@ -59,7 +59,6 @@ public class Online extends javax.swing.JFrame {
                 player = new nhanDataNguoiChoi(this, ois, Skcl);
                 player.start();
                 SendData(new message_Cls("chat", "vao choi mi"));
-                this.Jbt_Doi.disable();
                 //nếu đã kết nối thành công thì cho cờ đánh bằng true
                 this.carochess1.setSanSang(true);
             } catch (Exception e) {
@@ -150,7 +149,6 @@ public class Online extends javax.swing.JFrame {
         carochess1 = new demo.Carochess();
         pnPlayOnline = new javax.swing.JPanel();
         pnBoard = new demo.Carochess();
-        Jbt_Doi = new javax.swing.JButton();
         lbLose = new javax.swing.JLabel();
         lbExit = new javax.swing.JLabel();
         lbBg = new javax.swing.JLabel();
@@ -183,15 +181,6 @@ public class Online extends javax.swing.JFrame {
 
         pnPlayOnline.add(pnBoard);
         pnBoard.setBounds(369, 47, 501, 501);
-
-        Jbt_Doi.setText("đợi");
-        Jbt_Doi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Jbt_DoiActionPerformed(evt);
-            }
-        });
-        pnPlayOnline.add(Jbt_Doi);
-        Jbt_Doi.setBounds(120, 380, 47, 23);
 
         lbLose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Board/Lose.png"))); // NOI18N
         lbLose.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -299,8 +288,15 @@ public class Online extends javax.swing.JFrame {
         int x = evt.getX();
         int y = evt.getY();
         if ((x > 0) && (x < (lbExit.getWidth())) && (y > 0) && (y < (lbExit.getHeight()))) {
-            System.out.println("name " + this.getName());
-            this.mn.getSk().SendData(new message_Cls("thoat phong", this.id_phong + ""));
+            CloseGiaoDien();
+        }
+    }//GEN-LAST:event_lbExitMouseReleased
+    
+    public void CloseGiaoDien(){
+                    message_Cls sms = new message_Cls("thoat rooms", "");
+            sms.setIdPhong(this.mn.getId_phong());
+            System.out.println("id phong                      => "+sms.getIdPhong());
+            this.mn.getSk().SendData(sms);
             if (this.mn.getHdtp() != null) {
                 this.mn.getHdtp().show();
                 this.mn.getHdtp().YeuCauPhong();
@@ -308,14 +304,9 @@ public class Online extends javax.swing.JFrame {
                 this.mn.setHdtp(new HangDoiTimPhong(mn));
                 this.mn.getHdtp().YeuCauPhong();
             }
-            message_Cls sms = new message_Cls("thoat rooms", "");
-            sms.setIdPhong(this.mn.getId_phong());
-            System.out.println("id phong                      => "+sms.getIdPhong());
-            this.mn.getSk().SendData(sms);
             this.dispose();
-        }
-    }//GEN-LAST:event_lbExitMouseReleased
-
+    }
+    
     private void lbLoseMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLoseMousePressed
         // TODO add your handling code here:
         ImageIcon II = new ImageIcon(getClass().getResource("/Image/Board/Lose_press.png"));
@@ -333,13 +324,8 @@ public class Online extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lbLoseMouseReleased
 
-    private void Jbt_DoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Jbt_DoiActionPerformed
-        Connect2();
-    }//GEN-LAST:event_Jbt_DoiActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Jbt_Doi;
     private demo.Carochess carochess1;
     private javax.swing.JLabel lbBg;
     private javax.swing.JLabel lbExit;

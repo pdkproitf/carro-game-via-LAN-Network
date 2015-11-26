@@ -88,7 +88,8 @@ public class HangDoiTimPhong extends javax.swing.JFrame{
     public final void vaoPhong(int port){
         try {
             String inet = Inet4Address.getLocalHost().getHostAddress();
-            new Online(mn, true,0,port,inet).show();;
+            this.mn.setOnl(new Online(mn, true,0,port,inet));
+            this.mn.getOnl().show();
             this.dispose();
         } catch (UnknownHostException ex) {
             Logger.getLogger(HangDoiTimPhong.class.getName()).log(Level.SEVERE, null, ex);

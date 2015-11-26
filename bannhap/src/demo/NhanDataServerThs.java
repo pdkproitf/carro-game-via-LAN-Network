@@ -67,6 +67,7 @@ public class NhanDataServerThs extends Thread {
                                     System.out.println("67->(nhan data server)"+sms.getDesc()+"  ===================== id phog "+sms.getIdPhong());
                                     this.mn.setId_phong(sms.getIdPhong());
 //                                    this.mn.getOnl().Connect(sms.getPort(),sms.getInetAddress());
+                                    this.mn.getOnl().Connect2();
                                 }
                                 
                                 break;

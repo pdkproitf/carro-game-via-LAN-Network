@@ -44,6 +44,7 @@ public class nhanDataNguoiChoi extends Thread{
                                 break;
                             case "thoat":
                                 this.olne.closeSK();
+                                this.olne.CloseGiaoDien();
                                 break;
                             default:
                                 
